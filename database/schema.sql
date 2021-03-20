@@ -5,13 +5,13 @@ CREATE DATABASE overview_db;
 USE overview_db;
 
 CREATE TABLE Product (
-  product_id INTEGER AUTO_INCREMENT,
+  id INTEGER AUTO_INCREMENT,
   name VARCHAR(255) NOT NULL,
   slogan VARCHAR(255) NOT NULL,
-  description VARCHAR(255) NOT NULL,
+  description VARCHAR(1000) NOT NULL,
   category VARCHAR(255) NOT NULL,
   default_price INTEGER NOT NULL,
-  PRIMARY KEY (product_id)
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE Features (
@@ -20,58 +20,50 @@ CREATE TABLE Features (
   feature VARCHAR(255) NOT NULL,
   value VARCHAR(255) NOT NULL,
   PRIMARY KEY (feature_id),
-  FOREIGN KEY (product_id) REFERENCES Product(product_id)  ON DELETE CASCADE
-);
-
-CREATE TABLE Related_Product (
-  related_id INTEGER NOT NULL,
-  PRIMARY KEY (related_id)
+  FOREIGN KEY (product_id) REFERENCES Product(id)  ON DELETE CASCADE
 );
 
 CREATE TABLE Related_Products (
-  related_id INTEGER NOT NULL,
   product_id INTEGER NOT NULL,
-  FOREIGN KEY (related_id) REFERENCES Related_Product(product_id)  ON DELETE CASCADE,
-  FOREIGN KEY (product_id) REFERENCES Product(product_id) ON DELETE CASCADE
+  related_id INTEGER NOT NULL,
+  UNIQUE(product_id, related_id),
+  FOREIGN KEY (product_id) REFERENCES Product(id) ON DELETE CASCADE,
+  FOREIGN KEY (related_id) REFERENCES Product(id)  ON DELETE CASCADE
 );
 
 CREATE TABLE Styles (
   style_id INTEGER AUTO_INCREMENT,
   product_id INTEGER NOT NULL,
   name VARCHAR(255) NOT NULL,
-  original_price INTEGER NOT NULL,
   sale_price INTEGER NOT NULL,
+  original_price INTEGER NOT NULL,
   default_style BOOLEAN,
   PRIMARY KEY (style_id),
-  FOREIGN KEY (product_id) REFERENCES Product(product_id) ON DELETE CASCADE
+  FOREIGN KEY (product_id) REFERENCES Product(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Photo (
   photo_id INTEGER AUTO_INCREMENT,
-  url VARCHAR(255) NOT NULL,
-  thumbnail_url VARCHAR(255) NOT NULL,
-  PRIMARY KEY (photo_id)
-);
-
-CREATE TABLE Photos (
-  photo_id INTEGER NOT NULL,
   style_id INTEGER NOT NULL,
-  FOREIGN KEY (photo_id) REFERENCES Photo(photo_id) ON DELETE CASCADE,
+  url VARCHAR(2048) NOT NULL,
+  thumbnail_url VARCHAR(2048) NOT NULL,
+  PRIMARY KEY (photo_id),
   FOREIGN KEY (style_id) REFERENCES Styles(style_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Skus (
   sku_id INTEGER AUTO_INCREMENT,
   style_id INTEGER NOT NULL,
-  quantity INTEGER NOT NULL,
   size VARCHAR(255) NOT NULL,
+  quantity INTEGER NOT NULL,
   PRIMARY KEY (sku_id),
   FOREIGN KEY (style_id) REFERENCES Styles(style_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Cart_Item (
   cart_id INTEGER AUTO_INCREMENT,
+  sku_id INTEGER NOT NULL,
   quantity INTEGER NOT NULL,
   PRIMARY KEY (cart_id),
-  FOREIGN KEY (sku_id) REFERENCES Sku(sku_id)  ON DELETE CASCADE,
+  FOREIGN KEY (sku_id) REFERENCES Skus(sku_id)  ON DELETE CASCADE
 )
