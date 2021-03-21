@@ -27,3 +27,19 @@ module.exports.getOneProduct = (req, res) {
       })
     })
 });
+
+module.exports.getProductStyles = (req, res) {
+  db.getProductStyles(req.params.id)
+    .then(response => {
+      if (response) {
+        res.json(response)
+      } else {
+        res.status(404).send('Styles Not Found');
+      }
+    })
+    .catch(error => {
+      res.status(500).json({
+        error: error,
+      })
+    })
+});
