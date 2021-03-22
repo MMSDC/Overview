@@ -1,21 +1,25 @@
-const db = require('../database/index.js');
+const db = require('../database/database.js');
 
 module.exports.getAllProducts = (req, res) => {
-    db.queryAllProducts()
-      .then(response => {
-        res.json(response)
+  let page = req.query.page || 1;
+  let count = req.query.count || 5;
+
+  db.queryAllProducts(page, count)
+    .then(response => {
+      res.json(response)
+    })
+    .catch(error => {
+      res.status(500).json({
+        error: error,
       })
-      .catch(error => {
-        res.status(500).json({
-          error: error,
-        })
-      })
+    })
 }
 
-module.exports.getOneProduct = (req, res) {
+module.exports.getOneProduct = (req, res) => {
   db.getOneProduct(req.params.id)
     .then(response => {
       if (response) {
+        // console.log('response', response)
         res.json(response)
       } else {
         res.status(404).send('Product Not Found');
@@ -26,12 +30,13 @@ module.exports.getOneProduct = (req, res) {
         error: error,
       })
     })
-});
+};
 
-module.exports.getProductStyles = (req, res) {
+module.exports.getProductStyles = (req, res) => {
   db.getProductStyles(req.params.id)
     .then(response => {
       if (response) {
+        console.log('response', response)
         res.json(response)
       } else {
         res.status(404).send('Styles Not Found');
@@ -42,4 +47,4 @@ module.exports.getProductStyles = (req, res) {
         error: error,
       })
     })
-});
+};
