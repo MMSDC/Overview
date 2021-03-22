@@ -4,7 +4,7 @@ module.exports.getAllProducts = (req, res) => {
   let page = req.query.page || 1;
   let count = req.query.count || 5;
 
-  db.queryAllProducts(page, count)
+  db.getAllProducts(page, count)
     .then(response => {
       res.json(response)
     })
