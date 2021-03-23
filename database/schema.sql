@@ -38,7 +38,7 @@ CREATE TABLE styles (
   name VARCHAR(255) NOT NULL,
   sale_price VARCHAR(255) DEFAULT NULL,
   original_price INTEGER NOT NULL,
-  default_style BINARY DEFAULT 0 NOT NULL,
+  default_style TINYINT DEFAULT 0 NOT NULL,
   PRIMARY KEY (style_id),
   FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
 );
