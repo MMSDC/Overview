@@ -1,5 +1,6 @@
 var mysql = require('mysql');
 var mysqlConfig = require('./config.js');
+var helpers = require('./helpers.js');
 
 var connection = mysql.createConnection(mysqlConfig);
 // limit and offset(how many to drop)
@@ -29,7 +30,6 @@ const getOneProduct = (id) => {
     products.default_price,
   JSON_ARRAYAGG(
     JSON_OBJECT(
-      'id', features.product_id,
       'feature', features.feature,
       'value', features.value
     )
@@ -39,11 +39,11 @@ const getOneProduct = (id) => {
   JOIN features ON products.product_id=features.product_id
   WHERE products.product_id=?`;
   const promiseOneProduct = new Promise((resolve, reject) => {
-    connection.query(oneProductQuery, [id], (err, rows) => {
+    connection.query(oneProductQuery, [id], (err, row) => {
       if (err) {
         reject(err);
       } else {
-        resolve(rows);
+        resolve(helpers.parseProduct(row[0]));
       }
     })
   })
@@ -54,7 +54,6 @@ const getProductStyles = (id) => {
   const stylesQuery = `
   SELECT
     styles.style_id,
-    styles.product_id,
     styles.name,
     styles.sale_price,
     styles.original_price,
@@ -67,12 +66,12 @@ const getProductStyles = (id) => {
     pl.style_id,
     JSON_ARRAYAGG(
       JSON_OBJECT(
-        'url', pl.url,
-        'thumbnail_url', pl.thumbnail_url
+        'thumbnail_url', pl.thumbnail_url,
+        'url', pl.url
       )
     ) AS photos
     FROM photos AS pl
-    WHERE style_id=46609
+    WHERE style_id IN (SELECT style_id FROM styles WHERE product_id=?)
     GROUP by pl.style_id
   ) AS subphoto
   ON subphoto.style_id = styles.style_id
@@ -82,23 +81,23 @@ const getProductStyles = (id) => {
     JSON_OBJECTAGG(
       sl.sku_id,
         JSON_OBJECT(
-          'size', sl.size,
-          'quantity', sl.quantity
+          'quantity', sl.quantity,
+          'size', sl.size
         )
     ) AS skus
     FROM skus AS sl
-    WHERE sl.style_id =46609
+    WHERE sl.style_id IN (SELECT style_id FROM styles WHERE product_id=?)
     GROUP by sl.style_id
   ) AS subsku
   ON subsku.style_id = styles.style_id
   WHERE styles.product_id=?`;
   const promiseStyles = new Promise((resolve, reject) => {
-    connection.query(stylesQuery, [id], (err, data) => {
+    connection.query(stylesQuery, [id, id, id], (err, data) => {
       if (err) {
         reject(err);
       } else {
-        console.log('data', JSON.stringify(data[0].default_style))
-        resolve(data[0]);
+        const parsedData = helpers.parseStyles(data)
+        resolve(parsedData);
       }
     })
   })
