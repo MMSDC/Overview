@@ -36,8 +36,8 @@ module.exports.getProductStyles = (req, res) => {
   db.getProductStyles(req.params.id)
     .then(response => {
       if (response) {
-        console.log('response', response)
-        res.json(response)
+        var styleData = {product_id: req.params.id, results: response}
+        res.send(styleData)
       } else {
         res.status(404).send('Styles Not Found');
       }
