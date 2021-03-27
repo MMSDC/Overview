@@ -20,7 +20,7 @@ export const options = {
 };
 
 export default function () {
-  const BASE_URL = `http://localhost:80`;
+  const BASE_URL = `http://18.144.66.164`;
   let response;
 
   response = http.get(`${BASE_URL}/products`);
