@@ -1,9 +1,10 @@
+const newrelic = require('newrelic')
 const express = require('express');
 const productController = require('../controller/controller.js')
 
 const app = express();
 
-const port = 3300;
+const port = process.env.PORT || 3300;
 
 
 app.use(express.json());
