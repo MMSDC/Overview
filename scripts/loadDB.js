@@ -1,7 +1,7 @@
 const fs = require('fs');
 const csv = require('csv-parser')
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
-const mysql = require('mysql')
+const mysql = require('mysql2')
 const mysqlConfig = require('../database/config.js');
 
 const connection = mysql.createConnection(mysqlConfig);
