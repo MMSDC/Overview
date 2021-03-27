@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server/server.js",
     "test:performance": "k6 run tests/performance/productsNginx.js",
     "prod": "NODE_ENV=production DB_HOST=54.193.13.116 pm2 start server/server.js -i max",
