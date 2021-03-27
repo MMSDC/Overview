@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server/server.js",
     "test:performance": "k6 run tests/performance/productsNginx.js",
-    "prod": "export DB_HOST=54.193.13.116; pm2 start server/server.js -i max",
+    "prod": "NODE_ENV=production DB_HOST=54.193.13.116 node server/server.js",
     "loadDB": "node scripts/loadDB.js"
   },
   "repository": {
