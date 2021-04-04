@@ -14,7 +14,7 @@ export const options = {
     // { duration: '2m', target: 300 }, // around the breaking point
     // { duration: '5m', target: 300 },
     // { duration: '2m', target: 400 }, // beyond the breaking point
-    { duration: '2m', target: 2500 },
+    { duration: '2m', target: 3000 },
     // { duration: '5m', target: 0 }, // scale down. Recovery stage.
   ],
 };
@@ -23,7 +23,7 @@ export default function () {
   const BASE_URL = `http://localhost:3300`;
   let response;
 
-  response = http.get(`${BASE_URL}/products`);
+  response = http.get(`${BASE_URL}/products/10000`);
 
   const checkRes = check(response, {
     'status is 200': (r) => r.status === 200,
@@ -33,6 +33,6 @@ export default function () {
   sleep(1);
 }
 
-// response = http.get(`${BASE_URL}/products/10000`);
+// response = http.get(`${BASE_URL}/products`);
 
 // response = http.get(`${BASE_URL}/products/10000/styles`);

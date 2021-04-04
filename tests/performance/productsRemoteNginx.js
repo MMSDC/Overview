@@ -14,13 +14,13 @@ export const options = {
     // { duration: '2m', target: 300 }, // around the breaking point
     // { duration: '5m', target: 300 },
     // { duration: '2m', target: 400 }, // beyond the breaking point
-    { duration: '2m', target: 2500 },
+    { duration: '2m', target: 1000 },
     // { duration: '5m', target: 0 }, // scale down. Recovery stage.
   ],
 };
 
 export default function () {
-  const BASE_URL = `http://localhost:3300`;
+  const BASE_URL = `http://18.144.66.164`;
   let response;
 
   response = http.get(`${BASE_URL}/products`);

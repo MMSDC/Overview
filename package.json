@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon server/server.js",
-    "test:performance": "k6 run tests/performance/productsNginx.js",
+    "test:performance": "k6 run tests/performance/productsRemoteNginx.js",
+    "test:nodeGetAllProducts": "k6 run tests/performance/products.js",
+    "test:nginxGetAllProducts": "k6 run tests/performance/productsLocalNginx.js",
+    "test:remoteNodeGetAllProducts": "k6 run tests/performance/productsRemoteNode.js",
+    "dev": "NODE_ENV=production pm2 start server/server.js -i max",
     "prod": "NODE_ENV=production DB_HOST=54.193.13.116 pm2 start server/server.js -i max",
     "loadDB": "node scripts/loadDB.js"
   },

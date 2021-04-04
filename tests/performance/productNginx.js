@@ -23,7 +23,7 @@ export default function () {
   const BASE_URL = `http://18.144.66.164`;
   let response;
 
-  response = http.get(`${BASE_URL}/products`);
+  response = http.get(`${BASE_URL}/products/10000`);
 
   const checkRes = check(response, {
     'status is 200': (r) => r.status === 200,
@@ -33,6 +33,6 @@ export default function () {
   sleep(1);
 }
 
-// response = http.get(`${BASE_URL}/products/10000`);
+// response = http.get(`${BASE_URL}/products`);
 
 // response = http.get(`${BASE_URL}/products/10000/styles`);
