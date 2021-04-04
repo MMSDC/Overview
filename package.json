@@ -4,8 +4,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server/server.js",
+    "test:performance": "k6 run tests/performance/productsRemoteNginx.js",
+    "test:nodeGetAllProducts": "k6 run tests/performance/products.js",
+    "test:nginxGetAllProducts": "k6 run tests/performance/productsLocalNginx.js",
+    "test:remoteNodeGetAllProducts": "k6 run tests/performance/productsRemoteNode.js",
+    "dev": "NODE_ENV=production pm2 start server/server.js -i max",
+    "prod": "NODE_ENV=production DB_HOST=54.193.13.116 pm2 start server/server.js -i max",
     "loadDB": "node scripts/loadDB.js"
   },
   "repository": {
@@ -21,7 +26,10 @@
   "dependencies": {
     "express": "^4.17.1",
     "mysql": "^2.18.1",
-    "nodemon": "^2.0.7"
+    "mysql2": "^2.2.5",
+    "newrelic": "^7.2.0",
+    "nodemon": "^2.0.7",
+    "pm2": "^4.5.5"
   },
   "devDependencies": {
     "csv-parser": "^3.0.0",
