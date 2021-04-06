@@ -15,12 +15,13 @@ export const options = {
     // { duration: '5m', target: 300 },
     // { duration: '2m', target: 400 }, // beyond the breaking point
     { duration: '2m', target: 1000 },
+    // { duration: '2m', target: 2500 },
     // { duration: '5m', target: 0 }, // scale down. Recovery stage.
   ],
 };
 
 export default function () {
-  const BASE_URL = `http://18.144.66.164`;
+  const BASE_URL = `http://52.53.184.168`;
   let response;
 
   response = http.get(`${BASE_URL}/products`);
